@@ -3,6 +3,8 @@
 package img_text
 
 import (
+	"fmt"
+
 	"github.com/fogleman/gg"
 )
 
@@ -31,6 +33,8 @@ func AddTextOverlay(inputImagePath, outputImagePath, message string) error {
 	if err := dc.LoadFontFace("Roboto-Bold.ttf", 72); err != nil {
 		return err
 	}
+
+	fmt.Printf("Adding the string \"%s\" to image", message)
 
 	// Write text on top of the image
 	dc.DrawStringAnchored(message, float64(width)/2, float64(height)/2, 0.5, 0.5)
