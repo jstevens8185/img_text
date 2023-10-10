@@ -6,9 +6,6 @@ import (
 	"github.com/fogleman/gg"
 )
 
-const W = 500
-const H = 300
-
 // AddTextOverlay adds text on top of an existing image and saves it.
 func AddTextOverlay(inputImagePath, outputImagePath, message string) error {
 	// Load the existing image
@@ -17,7 +14,10 @@ func AddTextOverlay(inputImagePath, outputImagePath, message string) error {
 		return err
 	}
 
-	dc := gg.NewContext(W, H)
+	bounds := img.Bounds()
+	width, height := bounds.Max.X, bounds.Max.Y
+
+	dc := gg.NewContext(width, height)
 
 	// Set a background color (optional)
 	dc.SetRGB(1, 1, 1)
@@ -33,7 +33,7 @@ func AddTextOverlay(inputImagePath, outputImagePath, message string) error {
 	}
 
 	// Write text on top of the image
-	dc.DrawStringAnchored(message, W/2, H/2, 0.5, 0.5)
+	dc.DrawStringAnchored(message, float64(width)/2, float64(height)/2, 0.5, 0.5)
 
 	// Save the modified image with text
 	if err := dc.SavePNG(outputImagePath); err != nil {
