@@ -1,19 +1,20 @@
+// textoverlay.go
+
 package img_text
 
 import (
-	"log"
-
 	"github.com/fogleman/gg"
 )
 
-func AddTextToImage(inputImage string, outputFile string) {
-	const W = 500
-	const H = 300
+const W = 500
+const H = 300
 
+// AddTextOverlay adds text on top of an existing image and saves it.
+func AddTextOverlay(inputImagePath, outputImagePath, message string) error {
 	// Load the existing image
-	img, err := gg.LoadImage(inputImage)
+	img, err := gg.LoadImage(inputImagePath)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	dc := gg.NewContext(W, H)
@@ -25,18 +26,19 @@ func AddTextToImage(inputImage string, outputFile string) {
 	// Draw the existing image
 	dc.DrawImage(img, 0, 0)
 
-	// Set text color and size
+	// Set text color and size using the default font
 	dc.SetRGB(0.5, 0, 0)
 	if err := dc.LoadFontFace("Roboto-Bold.ttf", 72); err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	// Write text on top of the image
-	message := "Hello, world!"
 	dc.DrawStringAnchored(message, W/2, H/2, 0.5, 0.5)
 
 	// Save the modified image with text
-	if err := dc.SavePNG(outputFile); err != nil {
-		log.Fatal(err)
+	if err := dc.SavePNG(outputImagePath); err != nil {
+		return err
 	}
+
+	return nil
 }
