@@ -1,4 +1,4 @@
-package main
+package img_text
 
 import (
 	"log"
@@ -6,12 +6,12 @@ import (
 	"github.com/fogleman/gg"
 )
 
-func main() {
+func AddTextToImage(inputImage string, outputFile string) {
 	const W = 500
 	const H = 300
 
 	// Load the existing image
-	img, err := gg.LoadImage("existing_image.png")
+	img, err := gg.LoadImage(inputImage)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -36,7 +36,7 @@ func main() {
 	dc.DrawStringAnchored(message, W/2, H/2, 0.5, 0.5)
 
 	// Save the modified image with text
-	if err := dc.SavePNG("output_image.png"); err != nil {
+	if err := dc.SavePNG(outputFile); err != nil {
 		log.Fatal(err)
 	}
 }
