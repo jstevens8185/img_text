@@ -1,19 +1,19 @@
-package img_text
+package main
 
 import (
+	"log"
+
 	"github.com/fogleman/gg"
-	// Import the default font
 )
 
-const W = 500
-const H = 300
+func main() {
+	const W = 500
+	const H = 300
 
-// AddTextOverlay adds text on top of an existing image and saves it.
-func AddTextOverlay(inputImagePath, outputImagePath, message string) error {
 	// Load the existing image
-	img, err := gg.LoadImage(inputImagePath)
+	img, err := gg.LoadImage("existing_image.png")
 	if err != nil {
-		return err
+		log.Fatal(err)
 	}
 
 	dc := gg.NewContext(W, H)
@@ -25,19 +25,18 @@ func AddTextOverlay(inputImagePath, outputImagePath, message string) error {
 	// Draw the existing image
 	dc.DrawImage(img, 0, 0)
 
-	// Set text color and size using the default font
+	// Set text color and size
 	dc.SetRGB(0.5, 0, 0)
-	if err := dc.LoadFontFace("image/font/gofont/ttfs/goregular.TTF", 72); err != nil {
-		return err
+	if err := dc.LoadFontFace("Roboto-Bold.ttf", 72); err != nil {
+		log.Fatal(err)
 	}
 
 	// Write text on top of the image
+	message := "Hello, world!"
 	dc.DrawStringAnchored(message, W/2, H/2, 0.5, 0.5)
 
 	// Save the modified image with text
-	if err := dc.SavePNG(outputImagePath); err != nil {
-		return err
+	if err := dc.SavePNG("output_image.png"); err != nil {
+		log.Fatal(err)
 	}
-
-	return nil
 }
